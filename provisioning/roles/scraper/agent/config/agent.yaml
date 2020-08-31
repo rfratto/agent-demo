@@ -1,0 +1,43 @@
+server:
+  log_level: info
+  http_listen_port: 12345
+
+prometheus:
+  wal_directory: /tmp/agent
+  global:
+    scrape_interval: 5s
+    external_labels:
+      nodename: {{ ansible_facts['nodename'] }}
+  scraping_service:
+    enabled: true
+    kvstore:
+      store: etcd
+      etcd:
+        endpoints:
+          - etcd-a:2379
+    lifecycler:
+      ring:
+        replication_factor: 1
+        kvstore:
+          store: etcd
+          etcd:
+            endpoints:
+              - etcd-a:2379
+      # eth1 is the private IP address from Vagrant. This defaults to eth0 which
+      # is the NAT gateway and not what what we want in this specific case.
+      interface_names: [eth1]
+
+integrations:
+  agent:
+    enabled: true
+  node_exporter:
+    enabled: true
+
+    rootfs_path: /host/root
+    sysfs_path: /host/sys
+    procfs_path: /host/proc
+  prometheus_remote_write:
+    - url: {{ secrets.remote_write_url }}
+      basic_auth:
+        username: {{ secrets.remote_write_username }}
+        password: {{ secrets.remote_write_password }}

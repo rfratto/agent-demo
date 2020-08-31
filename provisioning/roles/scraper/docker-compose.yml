@@ -1,0 +1,20 @@
+version: "2"
+services:
+  agent:
+    restart: unless-stopped
+    image: grafana/agent:v0.5.0
+    volumes:
+      - ./agent/config:/etc/agent-config
+      # stuff for node_exporter integration
+      - /etc/hostname:/etc/hostname:ro
+      - /:/host/root:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/TZ:ro
+    entrypoint:
+      - /bin/agent
+      - -config.file=/etc/agent-config/agent.yaml
+    ports:
+      - "12345:12345"
+    network_mode: host

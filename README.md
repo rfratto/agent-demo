@@ -1,10 +1,10 @@
 # agent-demo
 
-
 WIP, not functional yet
 
 ## Dependencies
 
+- Agentctl
 - Ansible
 - Vagrant >= 2.2.10
 - VirtualBox >= 6
@@ -25,3 +25,12 @@ but WSL 2 users might have some trouble.
      you want to expose your VMs on, allowing you to access them from your host
      OS.
 4. Provision the Virtual Machines: `ansible-playbook -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory provisioning/playbook.yml`
+
+After the machines are provisioned, they will start sending data to Grafana
+Cloud. However, only the Agent and Machine metrics are being collected and sent.
+The `team` [application](https://github.com/grafana/tns) is not being scraped
+yet and must be sent to one of the `scrapers` using `agentctl`:
+
+```
+# TODO(rfratto): command
+```
