@@ -60,5 +60,9 @@ Vagrant.configure("2") do |config|
       "scrapers" => ["scraping_server_a", "scraping_server_b", "scraping_server_c"],
       "etcd" => ["scraping_server_a"],
     }
+
+    ansible.extra_vars = {
+      ansible_python_interpreter: '/usr/bin/python3'
+    }
   end
 end
