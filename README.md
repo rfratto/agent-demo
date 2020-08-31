@@ -1,6 +1,19 @@
 # agent-demo
 
-WIP, not functional yet
+Provides a demonstration of the Grafana Cloud Agent along with its Scraping Service
+Mode by managing a cluster of machines in Vagrant and assigning different roles
+to them.
+
+The [Grafana TNS demo](https://github.com/grafana/tns) is run on "`team`"
+machines, representing a team within an organization that has an application
+they wish to scrape centrally. Then a cluster of Agents running on "`scraper`"
+machines will centrally scrape those metrics.
+
+Every machine also runs the Agent for it to collect Agent metrics from itself
+along with host machine metrics of the machine it runs on.
+
+`agent-demo` is intended to write to Grafana Cloud, though it should work
+against any remote_write endpoint.
 
 ## Dependencies
 
@@ -52,3 +65,8 @@ Finally, run the following command to sync the config files:
 ```
 agentctl config-sync -a http://${SCRAPING_SERVICE_ADDR}:12345 ./scrape_targets/configs
 ```
+
+## Dashboards
+
+The [`dashboards/`](./dashboards) folder contains a series of Grafana Dashboards
+used to demonstrate the demo.
