@@ -12,13 +12,17 @@
 def define_machine(config, name, ip)
   config.vm.define name do |machine|
     machine.vm.box = "hashicorp/bionic64"
+    machine.vm.hostname = name.gsub('_', '-')
+
+    # eth1: private_network, eth2: public_network
+    machine.vm.network "private_network", ip: ip
+    machine.vm.network "public_network", bridge: 'en0: Wi-Fi (Wireless)'
+
     machine.vm.provider "virtualbox" do |vb|
       vb.memory = "1024"
       vb.cpus = 1
     end
 
-    machine.vm.network "public_network"
-    machine.vm.network "private_network", ip: ip
   end
 end
 
@@ -53,7 +57,10 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "provisioning/playbook.yml"
+    # We want the inventory to be created but we don't want to provision here
+    # since it's slow and runs in serial. Instead we'll run a no-op playbook
+    # and manually invoke ansible later.
+    ansible.playbook = "provisioning/no-op.yml"
 
     ansible.groups = {
       "team" => ["team_a", "team_b"],
@@ -61,8 +68,12 @@ Vagrant.configure("2") do |config|
       "etcd" => ["scraping_server_a"],
     }
 
-    ansible.extra_vars = {
-      ansible_python_interpreter: '/usr/bin/python3'
-    }
+    # Make sure ansible uses python3 for all of our machines
+    ansible.host_vars = {}
+    machines.each do |machine|
+      ansible.host_vars[machine[:name]] = {
+        'ansible_python_interpreter' => '/usr/bin/python3'
+      }
+    end
   end
 end

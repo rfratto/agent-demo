@@ -1,0 +1,7 @@
+- hosts: all
+  tasks:
+  # Credit to this URL for the idea of how to run Ansible in parllel with
+  # Vagrant-provisioned machines:
+  #   https://martincarstenbach.wordpress.com/2019/04/11/ansible-tipsntricks-provision-multiple-machines-in-parallel-with-vagrant-and-ansible/
+  - name: Hello world
+    debug: var=ansible_hostname

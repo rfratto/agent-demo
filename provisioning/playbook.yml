@@ -4,9 +4,10 @@
 - hosts: all
   become: true
   tasks:
-  - name: hello world
-    debug:
-      msg: hello world! {{ inventory_hostname }}
+  - name: Install hosts file
+    template:
+      src: template/hosts.j2
+      dest: /etc/hosts
   - name: Install apt-key
     apt:
       name:
@@ -48,3 +49,29 @@
     pip:
       name: docker-compose
       executable: pip3
+
+#
+# Team role
+#
+- hosts: team
+  tasks:
+  - name: Load variables for templating
+    include_vars:
+      file: secrets.yaml
+      name: secrets
+
+  - name: Create directories for docker-compose environment
+    file:
+      path: /home/vagrant/deploy/team/{{ item.path }}
+      state: directory
+      mode: "{{ item.mode }}"
+    with_filetree: roles/team
+    when: item.state == 'directory'
+
+  - name: Copy team docker-compose environment
+    template:
+      src: "{{ item.src }}"
+      dest: "/home/vagrant/deploy/team/{{ item.path }}"
+    with_filetree: roles/team
+    when: item.state == 'file'
+

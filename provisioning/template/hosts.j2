@@ -1,0 +1,15 @@
+127.0.0.1 localhost
+127.0.1.1 vagrant.vm  vagrant
+
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+
+{% for item in ansible_play_batch %}
+{%- if hostvars[item].inventory_hostname == inventory_hostname %}
+127.0.2.1 {{ ansible_facts['nodename'] }} {{ ansible_facts['nodename'] }}
+{% else %}
+{{ hostvars[item].ansible_eth1.ipv4.address }} {{ hostvars[item].ansible_hostname }}
+{% endif %}
+{% endfor %}
