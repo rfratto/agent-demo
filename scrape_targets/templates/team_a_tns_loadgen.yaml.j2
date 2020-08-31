@@ -1,0 +1,12 @@
+scrape_configs:
+- job_name: team_a_tns_loadgen
+  static_configs:
+    - targets: ['team-a:8001']
+      labels:
+        origin: 'team-a'
+        process: 'tns_loadgen'
+remote_write:
+- url: {{ secrets.remote_write_url }}
+  basic_auth:
+    username: {{ secrets.remote_write_username }}
+    password: {{ secrets.remote_write_password }}

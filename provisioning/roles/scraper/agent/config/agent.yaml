@@ -6,8 +6,6 @@ prometheus:
   wal_directory: /tmp/agent
   global:
     scrape_interval: 5s
-    external_labels:
-      nodename: {{ ansible_facts['nodename'] }}
   scraping_service:
     enabled: true
     kvstore:
@@ -28,6 +26,8 @@ prometheus:
       interface_names: [eth1]
 
 integrations:
+  external_labels:
+    nodename: {{ ansible_facts['nodename'] }}
   agent:
     enabled: true
   node_exporter:

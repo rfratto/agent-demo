@@ -63,7 +63,7 @@
   tasks:
   - name: Load variables for templating
     include_vars:
-      file: secrets.yaml
+      file: ../secrets.yaml
       name: secrets
 
   - name: Create directories for team docker-compose environment
@@ -92,7 +92,7 @@
   tasks:
   - name: Load variables for templating
     include_vars:
-      file: secrets.yaml
+      file: ../secrets.yaml
       name: secrets
 
   - name: Create directories for etcd docker-compose environment
@@ -121,7 +121,7 @@
   tasks:
   - name: Load variables for templating
     include_vars:
-      file: secrets.yaml
+      file: ../secrets.yaml
       name: secrets
 
   - name: Create directories for scraper docker-compose environment

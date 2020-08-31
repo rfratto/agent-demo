@@ -1,0 +1,13 @@
+- hosts: local
+  tasks:
+  - name: Load variables for templating
+    include_vars:
+      file: ../secrets.yaml
+      name: secrets
+  - name: Copy team docker-compose environment
+    template:
+      src: "{{ item.src }}"
+      dest: "configs/{{ item.path | regex_replace('\\.j2', '') }}"
+    with_filetree: templates
+    when: item.state == 'file'
+

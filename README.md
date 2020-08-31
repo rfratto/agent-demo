@@ -29,8 +29,26 @@ but WSL 2 users might have some trouble.
 After the machines are provisioned, they will start sending data to Grafana
 Cloud. However, only the Agent and Machine metrics are being collected and sent.
 The `team` [application](https://github.com/grafana/tns) is not being scraped
-yet and must be sent to one of the `scrapers` using `agentctl`:
+yet and must be sent to one of the `scrapers` using `agentctl`.
+
+Generate the configs to upload to the scraping service API:
 
 ```
-# TODO(rfratto): command
+ansible-playbook -i ./scrape_targets/inventory scrape_targets/generate.yaml
+```
+
+Then, examine the contents of `machine.txt` at the root of this repository.
+Copy the IP address for `scraping_service_a` and run this command:
+
+```
+export SCRAPING_SERVICE_ADDR=<paste here>
+```
+
+When running that command, replace `<paste here>` with the address that was
+copied.
+
+Finally, run the following command to sync the config files:
+
+```
+agentctl config-sync -a http://${SCRAPING_SERVICE_ADDR}:12345 ./scrape_targets/configs
 ```
