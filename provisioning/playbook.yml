@@ -75,3 +75,7 @@
     with_filetree: roles/team
     when: item.state == 'file'
 
+  - name: Start docker-compose environment
+    docker_compose:
+      project_src: /home/vagrant/deploy/team
+

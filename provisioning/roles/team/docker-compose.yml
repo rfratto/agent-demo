@@ -1,21 +1,46 @@
 version: "2"
 services:
-  nginx:
-    image: nginx # ???
-  ports:
-    - "8080:8080"
-
-  nginx_exporter:
-    image: ???
-  ports:
-    - "8081:8081"
+  tns_db:
+    restart: unless-stopped
+    image: grafana/tns-db
+    ports:
+      - "8000:80"
+  tns_app:
+    restart: unless-stopped
+    image: grafana/tns-app
+    command:
+      - "http://tns_db"
+    links:
+      - tns_db
+    ports:
+      - "8080:80"
+  tns_loadgen:
+    restart: unless-stopped
+    image: grafana/tns-loadgen
+    command:
+      - "http://tns_app"
+    volumes:
+      - ./tns/stories.json:/stories.json
+    links:
+      - tns_app
+    ports:
+      - "8001:80"
 
   agent:
+    restart: unless-stopped
     image: grafana/agent:v0.5.0
     volumes:
       - ./agent/config:/etc/agent-config
+      # stuff for node_exporter integration
+      - /etc/hostname:/etc/hostname:ro
+      - /:/host/root:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/TZ:ro
     entrypoint:
       - /bin/agent
       - -config.file=/etc/agent-config/agent.yaml
     ports:
       - "12345:12345"
+    network_mode: host

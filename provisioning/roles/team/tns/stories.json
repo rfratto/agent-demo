@@ -1,0 +1,40 @@
+{
+    "stories": [
+        {
+            "title": "Remove the operational stress of onprem Cortex by graduating to Grafana Cloud",
+            "url": "https://grafana.com/cloud"
+        },
+        {
+            "title": "Grafana Labs announces: Loki, like Prometheus but for logs",
+            "url": "https://github.com/grafana/loki"
+        },
+        {
+            "title": "This is not a Rick Roll",
+            "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        },
+        {
+            "title": "Helm 3 has been announced!",
+            "url": "https://helm.sh/blog/helm-3-released/"
+        },
+        {
+            "title": "[2018] Microsoft vs Google vs IBM vs Oracle vs Alibaba",
+            "url": "https://www.zdnet.com/article/top-cloud-providers-2018-how-aws-microsoft-google-ibm-oracle-alibaba-stack-up/"
+        },
+        {
+            "title": "Cortex: Highly scalable, highly available, multi-tenant, long term Prometheus.",
+            "url": "https://cortexmetrics.io"
+        },
+        {
+            "title": "Google announces new dependency manager for Go.",
+            "url": "https://peter.bourgon.org/blog/2018/07/27/a-response-about-dep-and-vgo.html"
+        },
+        {
+            "title": "Grafana Labs raises 24m for an open-source based data analytics stack",
+            "url": "https://techcrunch.com/2019/10/24/grafana-labs-nabs-24m-series-a-for-open-source-based-data-analytics-stack/"
+        },
+        {
+            "title": "Mirantis acquires Docker Enterprise",
+            "url": "https://techcrunch.com/2019/11/13/mirantis-acquires-docker-enterprise/"
+        }
+    ]
+}
