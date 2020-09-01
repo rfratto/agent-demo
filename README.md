@@ -38,6 +38,8 @@ but WSL 2 users might have some trouble.
      you want to expose your VMs on, allowing you to access them from your host
      OS.
 4. Provision the Virtual Machines: `ansible-playbook -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory provisioning/playbook.yml`
+  1. You may have to run this twice if the docker-compose environment fails to
+     start up. It's currently not clear why this happens.
 
 After the machines are provisioned, they will start sending data to Grafana
 Cloud. However, only the Agent and Machine metrics are being collected and sent.
